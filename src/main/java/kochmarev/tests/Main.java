@@ -3,6 +3,7 @@ package kochmarev.tests;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,8 +57,20 @@ public class Main extends JDialog {
 
     private ArrayList getPhones(String info){
         ArrayList resultPhones = new ArrayList();
-        
-        return resultPhones;
+        for (Map.Entry entry : phonebase.entrySet()) {
+            if (entry.getKey().toString().contains(info) && info.length() > 3){
+                String[] buff = entry.getValue().toString().split("\\+");
+                resphones.setText(entry.getKey() + "\n\n");
+                // от 1 - потому что убирается первый плюс из базы
+                for (int i = 1; i < buff.length; i++) {
+                    resphones.append("+" + buff[i] + "\n");
+                    resultPhones.add(0, "+"+buff[i]);
+                }
+                return resultPhones;
+            }
+        }
+        resphones.setText("ФИО не найдены!");
+        return null;
     }
 
     private void onOK() {
